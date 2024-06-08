@@ -11,4 +11,3 @@ Bu proje başka Türkiye çapında hangi ilde olursanız olun istediğiniz okuld
   * After setup you can start the project using `start.bat` or `start.sh`
 * Todo
   * API support (it doesnt makes sense but why not)
-  * 
