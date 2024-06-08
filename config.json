@@ -1,0 +1,13 @@
+{
+  "config": {
+    "notif": "ntfy",
+    "uri": "fdsfds",
+    "token": "dfsfs",
+    "chatId": 0,
+    "grade": 10,
+    "schoolType": 3,
+    "city": 57,
+    "town": 19,
+    "school": 1
+  }
+}

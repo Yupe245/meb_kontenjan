@@ -1,0 +1,26 @@
+{
+  "name": "meb_kontenjan",
+  "version": "0.0.1",
+  "description": "Meb'in resmi sitesinden istediğiniz okulun kontenjanını kontrol eder.",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yupe245/meb_kontenjan.git"
+  },
+  "type": "module",
+  "author": "Miri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Yupe245/meb_kontenjan/issues"
+  },
+  "homepage": "https://github.com/Yupe245/meb_kontenjan#readme",
+  "dependencies": {
+    "inquirer": "^9.2.23",
+    "lowdb": "^1.0.0",
+    "ora": "^8.0.1",
+    "puppeteer": "^22.10.0"
+  }
+}
