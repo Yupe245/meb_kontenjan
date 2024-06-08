@@ -20,7 +20,13 @@
   "dependencies": {
     "inquirer": "^9.2.23",
     "lowdb": "^1.0.0",
+    "node-fetch": "^3.3.2",
+    "node-telegram-bot-api": "^0.66.0",
     "ora": "^8.0.1",
+    "punycode": "^2.3.1",
     "puppeteer": "^22.10.0"
+  },
+  "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.64.6"
   }
 }

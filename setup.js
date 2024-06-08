@@ -2,13 +2,15 @@ import ora from 'ora';
 import inquirer from 'inquirer';
 import puppeteer from 'puppeteer';
 import low from 'lowdb';
+import TelegramBot from "node-telegram-bot-api";
 
 import FileSync from 'lowdb/adapters/FileSync.js';
 
 const prompt = inquirer.createPromptModule();
+await new Promise(resolve => setTimeout(resolve, 500));
 console.clear();
 
-const configAdapter = new FileSync('config.json');
+const configAdapter = new FileSync('./src/config.json');
 const config = low(configAdapter);
 
 const info = {
@@ -20,7 +22,8 @@ const info = {
     schoolType: 0,
     city: 0,
     town: 0,
-    school: 0
+    school: 0,
+    schoolName: ''
 };
 
 prompt({
@@ -55,14 +58,20 @@ prompt({
             type: 'input',
             message: 'Telegram botunun token\'ını giriniz:\n'
         }).then(async ({ token }) => {
-            await prompt({
-                name: 'chatId',
-                type: 'input',
-                message: 'Telegram chat ID\'sini giriniz:\n'
-            }).then(({ chatId }) => {
-                info.token = token;
-                info.chatId = chatId;
+            const bot = new TelegramBot(token, { polling: true });
+            const chatId = ora('Chat id\'nizi öğrenmek için oluşturduğunuz bota "/start" yazın.').start();
+            
+            await new Promise((resolve) => {
+                bot.on('message', (msg) => {
+                    if (msg.text == '/start') {
+                        info.chatId = msg.chat.id;
+                        resolve();
+                        chatId.succeed('Chat id\'si başarı ile alındı!');
+                    };
+                });
             });
+            info.token = token;
+            await new Promise(resolve => setTimeout(resolve, 1000));
         });
     };
 
@@ -268,12 +277,14 @@ prompt({
                     }).then(async ({ school }) => {
                         school = school + 1;
                         info.school = school;
+                        info.schoolName = choices[school - 1].name;
 
                         config.read();
                         config.set('config', info).write();
 
                         console.clear();
                         console.log('Ayarlar başarı ile kaydedildi!');
+                        process.exit();
                     });
                 });
             });

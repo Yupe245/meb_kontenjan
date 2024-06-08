@@ -1,7 +1,16 @@
 import ora from 'ora';
 import puppeteer from 'puppeteer';
+import sendNotification from './sendNotification.js';
+import low from 'lowdb';
+import FileSync from 'lowdb/adapters/FileSync.js';
 
-export default async function fetchQuota(schoolType, city, town, school, grade) {
+const configAdapter = new FileSync('./src/config.json');
+const config = low(configAdapter);
+
+config.read();
+const value = config.get('config').value();
+
+export default async function fetchQuota(schoolType, city, town, school, grade, schoolName) {
     console.clear();
     const quota = ora('Kontenjan bilgisi alınıyor..').start();
 
@@ -57,8 +66,18 @@ export default async function fetchQuota(schoolType, city, town, school, grade) 
         await browser.close();
 
         quota.succeed('Kontenjan bilgisi başarı ile alındı!');
+        var kontenjan;
+        grade == 9 ? kontenjan = values[1][2] : grade == 10 ? kontenjan = values[1][3] : grade == 11 ? kontenjan = values[1][4] : kontenjan = values[1][5];
 
-        grade == 9 ? console.log('9. Sınıf Kontenjan:', values[1][2]) : grade == 10 ? console.log('10. Sınıf Kontenjan:', values[1][3]) : grade == 11 ? console.log('11. Sınıf Kontenjan:', values[1][4]) : console.log('12. Sınıf Kontenjan:', values[1][5]);
+        if (kontenjan >= 1) {
+            console.log(`${schoolName} okulunun ${grade}. sınıf kontenjanı: ${kontenjan}`);
+            sendNotification(`${schoolName} okulunun ${grade}. sınıf kontenjanı: ${kontenjan}`, {
+                service: value.notif,
+                uri: value.uri,
+                token: value.token,
+                id: value.chatId
+            });
+        };
     } catch (error) {
         await browser.close();
         quota.fail('Kontenjan bilgisi alınırken bir hata oluştu.\n');

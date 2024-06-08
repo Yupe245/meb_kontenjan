@@ -1,8 +1,0 @@
-* setup;
-headless option
-select the notification method --> Telegram or ntfy // write the selected option to db if ntfy selected get the ntfy link and 
-select the grade that you are in
-select the school type --> fen ve sosyal / anadolu liseleri / güzel sanatlar ve spor liseleri / imam hatip / meslek?
-select the city
-select the town
-select the school
